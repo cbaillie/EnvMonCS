@@ -1,5 +1,7 @@
 package uk.ac.dotrural.quality.mink;
 
+import uk.ac.dotrural.quality.mink.mysql.Database;
+
 public class Parser {
 	
 	public static void main(String[] args)
@@ -9,7 +11,12 @@ public class Parser {
 	
 	public Parser()
 	{
-		System.out.println("Hello World!");
+		new Database();
+	}
+	
+	private void getSightings()
+	{
+		
 	}
 
 }
