@@ -71,8 +71,7 @@ public class Parser {
 								"" + rs.getInt(12),
 								rs.getString(13),
 								rs.getString(14),
-								rs.getString(15),
-								"0"
+								rs.getString(15)
 							);
 				sightings.add(s);
 			}

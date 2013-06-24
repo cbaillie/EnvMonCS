@@ -7,4 +7,6 @@ public class Data {
 	public static String PROVNS = "http://www.w3.org/NS/prov-o/";
 	public static String FOAFNS = "http://xmlns.com/foaf/0.1/"; 
 	
+	public static String RDFNS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+	
 }
