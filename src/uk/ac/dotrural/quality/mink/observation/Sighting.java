@@ -118,9 +118,9 @@ public class Sighting {
 		Statement obsEntTypeStmt = model.createStatement(obs, model.createProperty(Data.RDFNS.concat("type")), model.createResource(Data.PROVNS.concat("Entity")));
 		Statement obsResTypeStmt = model.createStatement(obsRes, model.createProperty(Data.RDFNS.concat("type")), model.createResource(Data.SSNNS.concat("SensorOutput")));
 		Statement obsValTypeStmt = model.createStatement(obsVal, model.createProperty(Data.RDFNS.concat("type")), model.createResource(Data.SSNNS.concat("ObservationValue")));
-		Statement agentTypeStmt = model.createStatement(agent, model.createProperty(Data.RDFNS.concat("type")), model.createResource(Data.PROVNS.concat("Agent")));
-		Statement agentFoafStmt = model.createStatement(agent, model.createProperty(Data.RDFNS.concat("type")), model.createResource(Data.FOAFNS.concat("Person")));
-		Statement orgTypeStmt = model.createStatement(org, model.createProperty(Data.RDFNS.concat("type")), model.createResource(Data.FOAFNS.concat("Organization")));
+		Statement agentTypeStmt = model.createStatement(agent, model.createProperty(Data.RDFNS.concat("type")), model.createResource(Data.PROVNS.concat("Person")));
+		//Statement agentFoafStmt = model.createStatement(agent, model.createProperty(Data.RDFNS.concat("type")), model.createResource(Data.FOAFNS.concat("Person")));
+		Statement orgTypeStmt = model.createStatement(org, model.createProperty(Data.RDFNS.concat("type")), model.createResource(Data.PROVNS.concat("Role")));
 		
 		Statement obsAttrStmt = model.createStatement(obs, model.createProperty(Data.PROVNS.concat("wasAttributedTo")), agent);
 		Statement obsResStmt = model.createStatement(obs, model.createProperty(Data.SSNNS.concat("observationResult")), obsRes);
@@ -140,13 +140,13 @@ public class Sighting {
 		Statement minkCountStmt = model.createStatement(obsVal, model.createProperty(Data.MINKNS.concat("count")), model.createTypedLiteral(Integer.parseInt(minkCount)));
 		Statement minkStatStmt = model.createStatement(obsVal, model.createProperty(Data.MINKNS.concat("status")), model.createTypedLiteral(status));
 		
-		Statement agentNameStmt;
-		if(!cCode.equals("unknown"))
-			agentNameStmt =  model.createStatement(agent, model.createProperty(Data.FOAFNS.concat("name")), model.createTypedLiteral(cCode));
-		else
-			agentNameStmt = model.createStatement(agent, model.createProperty(Data.FOAFNS.concat("name")), model.createTypedLiteral(cName));
+		//Statement agentNameStmt;
+		//if(!cCode.equals("unknown"))
+			//agentNameStmt =  model.createStatement(agent, model.createProperty(Data.FOAFNS.concat("name")), model.createTypedLiteral(cCode));
+		//else
+			//agentNameStmt = model.createStatement(agent, model.createProperty(Data.FOAFNS.concat("name")), model.createTypedLiteral(cName));
 		
-		Statement agentOrgStmt = model.createStatement(agent, model.createProperty(Data.FOAFNS.concat("member")), org);
+		Statement agentOrgStmt = model.createStatement(agent, model.createProperty(Data.PROVNS.concat("hadRole")), org);
 		
 		model.add(obsTypeStmt);
 		model.add(obsEntTypeStmt);
@@ -166,8 +166,8 @@ public class Sighting {
 		model.add(minkCountStmt);
 		model.add(minkStatStmt);
 		model.add(agentTypeStmt);
-		model.add(agentFoafStmt);
-		model.add(agentNameStmt);
+		//model.add(agentFoafStmt);
+		//model.add(agentNameStmt);
 		model.add(orgTypeStmt);
 		model.add(agentOrgStmt);
 		
@@ -226,15 +226,17 @@ public class Sighting {
 		sb.append("\t<" + propUri + "> <" + Data.SSNNS.concat("propertyOf") + "> <" + foiUri + "> . \n\n");
 		
 		//Agent
-		sb.append("\t<" + agentUri + "> a <" + Data.FOAFNS.concat("Person") + "> . \n");
-		if(cName != null)
-			sb.append("\t<" + agentUri + "> <" + Data.FOAFNS.concat("name") + "> \"" + cName.split("\\s")[0] + "\" . \n");
+		//sb.append("\t<" + agentUri + "> a <" + Data.FOAFNS.concat("Person") + "> . \n");
+		sb.append("\t<" + agentUri + "> a <" + Data.PROVNS.concat("Person") + "> . \n");
+		//if(cName != null)
+			//sb.append("\t<" + agentUri + "> <" + Data.FOAFNS.concat("name") + "> \"" + cName.split("\\s")[0] + "\" . \n");
 
 		//sb.append("\t<" + agentUri + "> <" + Data.FOAFNS.concat("basedNear") + "> \"" + catchment + "\" . \n");
-		sb.append("\t<" + agentUri + "> <" + Data.FOAFNS.concat("member") + "> <" + orgUri + "> . \n\n");
+		//sb.append("\t<" + agentUri + "> <" + Data.FOAFNS.concat("member") + "> <" + orgUri + "> . \n\n");
+		sb.append("\t<" + agentUri + "> <" + Data.PROVNS.concat("hadRole") + "> <" + orgUri + "> . \n\n");
 		
 		//Organisation
-		sb.append("\t<" + orgUri + "> a <" + Data.FOAFNS.concat("Organisation") + "> . \n");
+		sb.append("\t<" + orgUri + "> a <" + Data.PROVNS.concat("Role") + "> . \n");
 		
 		sb.append("}");
 		
